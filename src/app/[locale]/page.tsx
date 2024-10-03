@@ -2,6 +2,7 @@
 
 import { useTranslations } from 'next-intl';
 import SearchIcon from '@mui/icons-material/Search';
+import HistoryIcon from '@mui/icons-material/History';
 import { cepCodeMask } from '@/helpers';
 import { useRef, useState } from 'react';
 import Api from '@/api';
@@ -10,6 +11,7 @@ import { Autorenew } from '@mui/icons-material';
 import { setCookie, getCookie } from 'cookies-next';
 import { weatherData } from '@/types/api/sources/accuWeather';
 import toast from 'react-hot-toast';
+import { useRouter } from 'next/navigation';
 
 interface SearchData {
   id: string;
@@ -18,6 +20,8 @@ interface SearchData {
 }
 
 export default function Home() {
+  const router = useRouter();
+
   const [isLoading, setIsLoading] = useState(false);
 
   const t = useTranslations('HomePage');
@@ -105,6 +109,17 @@ export default function Home() {
 
   return (
     <div className="flex items-center justify-center h-screen bg-gray-100">
+      <div className="absolute top-4 right-4">
+        <button
+          className="p-4 rounded-full text-textSecondary hover:cursor-pointer"
+          aria-label="History"
+        >
+          <HistoryIcon
+            fontSize="large"
+            onClick={() => router.push('/historic')}
+          />
+        </button>
+      </div>
       <div className="relative w-full max-w-xl shadow-primary rounded-md focus:shadow-none hover:shadow-none">
         <input
           ref={inputCepRef}
