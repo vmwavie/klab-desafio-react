@@ -2,6 +2,7 @@
 
 import { useTranslations } from 'next-intl';
 import SearchIcon from '@mui/icons-material/Search';
+import HistoryIcon from '@mui/icons-material/History';
 import { cepCodeMask } from '@/helpers';
 import { useRef, useState } from 'react';
 import Api from '@/api';
@@ -10,14 +11,16 @@ import { Autorenew } from '@mui/icons-material';
 import { setCookie, getCookie } from 'cookies-next';
 import { weatherData } from '@/types/api/sources/accuWeather';
 import toast from 'react-hot-toast';
+import { useRouter } from 'next/navigation';
 
 interface SearchData {
-  id: string;
   weatherData: weatherData;
   cepData: cepDetails;
 }
 
 export default function Home() {
+  const router = useRouter();
+
   const [isLoading, setIsLoading] = useState(false);
 
   const t = useTranslations('HomePage');
@@ -65,7 +68,7 @@ export default function Home() {
         return;
       }
 
-      const weatherData = await Api({
+      let weatherData = await Api({
         source: 'accuWeather',
         params: {
           cityName: `${(cepData.response as cepDetails)?.localidade}, ${
@@ -82,9 +85,12 @@ export default function Home() {
       }
 
       if (cepData.response && weatherData.response) {
+        let weatherDataToSave = weatherData.response as weatherData;
+
+        weatherDataToSave.searchDate = new Date().toISOString();
+
         const newSearchData: SearchData = {
-          id: Date.now().toString(),
-          weatherData: weatherData.response as weatherData,
+          weatherData: weatherDataToSave,
           cepData: cepData.response as cepDetails,
         };
 
@@ -104,7 +110,18 @@ export default function Home() {
   }
 
   return (
-    <div className="flex items-center justify-center h-screen bg-gray-100 p-4">
+    <div className="flex items-center justify-center h-screen bg-gray-100">
+      <div className="absolute top-4 right-4">
+        <button
+          className="p-4 rounded-full text-textSecondary hover:cursor-pointer"
+          aria-label="History"
+        >
+          <HistoryIcon
+            fontSize="large"
+            onClick={() => router.push('/historic')}
+          />
+        </button>
+      </div>
       <div className="relative w-full max-w-xl shadow-primary rounded-md focus:shadow-none hover:shadow-none">
         <input
           ref={inputCepRef}

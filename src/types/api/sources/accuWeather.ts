@@ -18,7 +18,7 @@ interface getWeatherByCityNameParams {
 }
 
 interface weatherData {
-  minTemparature: number;
+  minTemperature: number;
   maxTemperature: number;
   temperatureType: string;
   searchDate: string;

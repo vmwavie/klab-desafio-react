@@ -17,6 +17,7 @@ const config: Config = {
         secondary: '#FF6969',
         secondaryHover: '#D75555',
         textPrimary: '#606060',
+        textSecondary: '#808080',
       },
     },
   },

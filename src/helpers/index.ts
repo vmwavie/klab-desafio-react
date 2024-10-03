@@ -1,4 +1,20 @@
 import React from 'react';
+/**
+ * This function is responsible for formatting a dateString to 'dd/mm/yyyy, 00:00 AM' format.
+ *
+ * @param dateString
+ * @returns dd/mm/yyyy, 00:00 AM
+ */
+function formatDate(dateString: string) {
+  const date = new Date(dateString);
+  return new Intl.DateTimeFormat(navigator.language, {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+  }).format(date);
+}
 
 /**
  * This function is responsible for the cep masking, you should use this on onInput change event.
@@ -66,4 +82,10 @@ function isDangerousInput(input: string): boolean {
   return dangerousPattern.test(input);
 }
 
-export { cepCodeMask, validateCep, normalizeCityName, isDangerousInput };
+export {
+  formatDate,
+  cepCodeMask,
+  validateCep,
+  normalizeCityName,
+  isDangerousInput,
+};

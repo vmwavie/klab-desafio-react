@@ -59,7 +59,7 @@ async function getWeatherByCityName({
 }: getWeatherByCityNameParams): Promise<getWeatherByCityNameResponse> {
   let errorMessage: string = '';
   const weatherResponse: weatherData = {
-    minTemparature: 0,
+    minTemperature: 0,
     maxTemperature: 0,
     temperatureType: '',
     searchDate: '',
@@ -91,7 +91,7 @@ async function getWeatherByCityName({
       throw new Error();
     }
 
-    weatherResponse.minTemparature =
+    weatherResponse.minTemperature =
       axiosResponse.data.DailyForecasts[0].Temperature.Minimum.Value;
     weatherResponse.maxTemperature =
       axiosResponse.data.DailyForecasts[0].Temperature.Maximum.Value;
