@@ -2,9 +2,7 @@
   "HomePage": {
     "title": "KlabTest | Search Screen",
     "zipPlaceholder": "TYPE YOUR BRAZILIAN CEP...",
-    "loading": "Please wait, we are looking your data..."
-  },
-  "ErrorMessages": {
+    "loading": "Please wait, we are looking your data...",
     "invalidCepFormat": "Invalid CEP format. Please enter a valid CEP.",
     "apiError": "There was an error contacting the CEP service. Please try again later.",
     "cepNotFound": "The provided CEP was not found.",
