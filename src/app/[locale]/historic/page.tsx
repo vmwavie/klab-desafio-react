@@ -14,6 +14,8 @@ export default function Historic() {
 
   const t = useTranslations('HistoricPage');
 
+  const [isLoading, setIsLoading] = useState(true);
+
   const [data, setData] = useState<SearchData[]>([]);
 
   const [modalData, setModalData] = useState<SearchData | null>(null);
@@ -44,6 +46,8 @@ export default function Historic() {
       const parsedData: SearchData[] = JSON.parse(cookieData as string);
       setData(parsedData);
     }
+
+    setIsLoading(false);
   }, []);
 
   function sortData(key: SortKey) {
@@ -95,6 +99,17 @@ export default function Historic() {
     return '▲▼';
   }
 
+  function TableSkeleton() {
+    return (
+      <div className="animate-pulse">
+        <div className="h-10 bg-gray-200 mb-4"></div>
+        {[...Array(5)].map((_, index) => (
+          <div key={index} className="h-16 bg-gray-200 mb-2"></div>
+        ))}
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-col items-center justify-start min-h-screen bg-gray-100 p-4">
       <div className="w-full">
@@ -109,62 +124,66 @@ export default function Historic() {
         </div>
 
         <div className="overflow-x-auto sm:rounded-lg md:mx-10">
-          <table className="w-full text-sm text-left text-gray-500">
-            <thead className="text-xs text-gray-700 uppercase">
-              <tr>
-                <th
-                  scope="col"
-                  className="px-6 py-3 cursor-pointer"
-                  onClick={() => sortData('date')}
-                >
-                  {t('searchDate')} {getSortIcon('date')}
-                </th>
-                <th
-                  scope="col"
-                  className="px-6 py-3 cursor-pointer"
-                  onClick={() => sortData('address')}
-                >
-                  {t('address')} {getSortIcon('address')}
-                </th>
-                <th
-                  scope="col"
-                  className="px-6 py-3 cursor-pointer"
-                  onClick={() => sortData('weather')}
-                >
-                  {t('weather')}* {getSortIcon('weather')}
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  {t('actions')}
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {data.map((item, index) => (
-                <tr key={index} className="border-b hover:bg-gray-50">
-                  <td className="px-6 py-4">
-                    {formatDate(item.weatherData.searchDate)}
-                  </td>
-                  <td className="px-6 py-4">
-                    {`${item.cepData.logradouro}, Bairro ${item.cepData.bairro}`
-                      .slice(0, 30)
-                      .padEnd(33, '.')}
-                  </td>
-                  <td className="px-6 py-4">
-                    {`${item.weatherData.minTemperature}°c > ${item.weatherData.maxTemperature}°c`}
-                  </td>
-                  <td className="px-6 py-4">
-                    <button
-                      aria-label="View"
-                      className="text-black hover:text-textSecondary"
-                      onClick={() => openModal(item)}
-                    >
-                      <Visibility />
-                    </button>
-                  </td>
+          {isLoading ? (
+            <TableSkeleton />
+          ) : (
+            <table className="w-full text-sm text-left text-gray-500">
+              <thead className="text-xs text-gray-700 uppercase">
+                <tr>
+                  <th
+                    scope="col"
+                    className="px-6 py-3 cursor-pointer"
+                    onClick={() => sortData('date')}
+                  >
+                    {t('searchDate')} {getSortIcon('date')}
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-6 py-3 cursor-pointer"
+                    onClick={() => sortData('address')}
+                  >
+                    {t('address')} {getSortIcon('address')}
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-6 py-3 cursor-pointer"
+                    onClick={() => sortData('weather')}
+                  >
+                    {t('weather')}* {getSortIcon('weather')}
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    {t('actions')}
+                  </th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {data.map((item, index) => (
+                  <tr key={index} className="border-b hover:bg-gray-50">
+                    <td className="px-6 py-4">
+                      {formatDate(item.weatherData.searchDate)}
+                    </td>
+                    <td className="px-6 py-4">
+                      {`${item.cepData.logradouro}, Bairro ${item.cepData.bairro}`
+                        .slice(0, 30)
+                        .padEnd(33, '.')}
+                    </td>
+                    <td className="px-6 py-4">
+                      {`${item.weatherData.minTemperature}°c > ${item.weatherData.maxTemperature}°c`}
+                    </td>
+                    <td className="px-6 py-4">
+                      <button
+                        aria-label="View"
+                        className="text-black hover:text-textSecondary"
+                        onClick={() => openModal(item)}
+                      >
+                        <Visibility />
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
         </div>
       </div>
 
