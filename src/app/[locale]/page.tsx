@@ -68,7 +68,7 @@ export default function Home() {
         return;
       }
 
-      const weatherData = await Api({
+      let weatherData = await Api({
         source: 'accuWeather',
         params: {
           cityName: `${(cepData.response as cepDetails)?.localidade}, ${
@@ -85,8 +85,12 @@ export default function Home() {
       }
 
       if (cepData.response && weatherData.response) {
+        let weatherDataToSave = weatherData.response as weatherData;
+
+        weatherDataToSave.searchDate = new Date().toISOString();
+
         const newSearchData: SearchData = {
-          weatherData: weatherData.response as weatherData,
+          weatherData: weatherDataToSave,
           cepData: cepData.response as cepDetails,
         };
 
