@@ -10,5 +10,20 @@
     "cepNotFound": "The provided CEP was not found.",
     "unexpectedError": "An unexpected error occurred. Please try again.",
     "envError": "The application environment is not set correctly. Please contact the system administrator."
+  },
+  "HistoricPage": {
+    "street": "Street",
+    "neighborhood": "Neighborhood",
+    "city": "City",
+    "state": "State",
+    "country": "Country",
+    "zipCode": "ZIP Code",
+    "temperature": "Temperature",
+    "searchDate": "Search Date",
+    "address": "Address",
+    "weather": "Weather",
+    "actions": "Actions",
+    "modalAlert": "This data was last updated on",
+    "modalTitle": "Search Information"
   }
 }

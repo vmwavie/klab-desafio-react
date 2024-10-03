@@ -14,7 +14,6 @@ import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 
 interface SearchData {
-  id: string;
   weatherData: weatherData;
   cepData: cepDetails;
 }
@@ -87,7 +86,6 @@ export default function Home() {
 
       if (cepData.response && weatherData.response) {
         const newSearchData: SearchData = {
-          id: Date.now().toString(),
           weatherData: weatherData.response as weatherData,
           cepData: cepData.response as cepDetails,
         };

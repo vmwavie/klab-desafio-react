@@ -10,5 +10,20 @@
     "cepNotFound": "O CEP fornecido não foi encontrado.",
     "unexpectedError": "Ocorreu um erro inesperado. Por favor, tente novamente.",
     "envError": "O ambiente da aplicação não está configurado corretamente. Por favor, contate o administrador do sistema."
+  },
+  "HistoricPage": {
+    "street": "Rua",
+    "neighborhood": "Bairro",
+    "city": "Cidade",
+    "state": "Estado",
+    "country": "País",
+    "zipCode": "CEP",
+    "temperature": "Temperatura",
+    "searchDate": "Data da busca",
+    "address": "Endereço",
+    "weather": "Clima",
+    "actions": "Ações",
+    "modalAlert": "Estes dados foram atualizados pela última vez em",
+    "modalTitle": "Informações Da Busca"
   }
 }
