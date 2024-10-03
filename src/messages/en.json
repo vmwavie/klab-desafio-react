@@ -1,5 +1,14 @@
 {
   "HomePage": {
-    "helloWorld": "Hello, World!"
+    "title": "KlabTest | Search Screen",
+    "zipPlaceholder": "TYPE YOUR BRAZILIAN CEP...",
+    "loading": "Please wait, we are looking your data..."
+  },
+  "ErrorMessages": {
+    "invalidCepFormat": "Invalid CEP format. Please enter a valid CEP.",
+    "apiError": "There was an error contacting the CEP service. Please try again later.",
+    "cepNotFound": "The provided CEP was not found.",
+    "unexpectedError": "An unexpected error occurred. Please try again.",
+    "envError": "The application environment is not set correctly. Please contact the system administrator."
   }
 }

@@ -1,5 +1,14 @@
 {
   "HomePage": {
-    "helloWorld": "Olá Mundo!"
+    "title": "KlabTest | Tela de busca",
+    "zipPlaceholder": "DIGITE SEU CEP...",
+    "loading": "Aguarde, estamos procurando seus dados..."
+  },
+  "ErrorMessages": {
+    "invalidCepFormat": "Formato de CEP inválido. Por favor, digite um CEP válido.",
+    "apiError": "Ocorreu um erro ao contatar o serviço de CEP. Por favor, tente novamente mais tarde.",
+    "cepNotFound": "O CEP fornecido não foi encontrado.",
+    "unexpectedError": "Ocorreu um erro inesperado. Por favor, tente novamente.",
+    "envError": "O ambiente da aplicação não está configurado corretamente. Por favor, contate o administrador do sistema."
   }
 }

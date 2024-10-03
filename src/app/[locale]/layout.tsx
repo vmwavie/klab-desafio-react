@@ -3,6 +3,7 @@ import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 import localFont from 'next/font/local';
 import '../../styles/globals.css';
+import { Toaster } from 'react-hot-toast';
 
 const geistSans = localFont({
   src: '../../assets/fonts/GeistVF.woff',
@@ -33,6 +34,7 @@ export default async function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <NextIntlClientProvider messages={messages}>
+          <Toaster position="top-right" />
           {children}
         </NextIntlClientProvider>
       </body>

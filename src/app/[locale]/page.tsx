@@ -1,26 +1,128 @@
+'use client';
+
 import { useTranslations } from 'next-intl';
-import { getMessages } from 'next-intl/server';
-import { Messages } from '../../types/i18n';
+import SearchIcon from '@mui/icons-material/Search';
+import { cepCodeMask } from '@/helpers';
+import { useRef, useState } from 'react';
+import Api from '@/api';
+import { cepDetails } from '@/types/api/sources/viaCep';
+import { Autorenew } from '@mui/icons-material';
+import { setCookie, getCookie } from 'cookies-next';
+import { weatherData } from '@/types/api/sources/accuWeather';
+import toast from 'react-hot-toast';
 
-export async function generateMetadata({
-  params: { locale },
-}: {
-  params: { locale: string };
-}) {
-  const messages = (await getMessages({ locale })) as Messages;
-  const title = messages.HomePage.helloWorld;
-
-  return {
-    title,
-  };
+interface SearchData {
+  id: string;
+  weatherData: weatherData;
+  cepData: cepDetails;
 }
 
 export default function Home() {
+  const [isLoading, setIsLoading] = useState(false);
+
   const t = useTranslations('HomePage');
+  const inputCepRef = useRef<HTMLInputElement>(null);
+
+  function updateSearchHistory(newSearchData: SearchData): SearchData[] {
+    const existingCookie = getCookie('searchHistory');
+
+    const searchHistory: SearchData[] = existingCookie
+      ? JSON.parse(existingCookie as string)
+      : [];
+
+    const existingIndex = searchHistory.findIndex(
+      (item) => item.cepData.cep === newSearchData.cepData.cep
+    );
+
+    if (existingIndex !== -1) {
+      searchHistory.splice(existingIndex, 1);
+    } else if (searchHistory.length >= 10) {
+      searchHistory.pop();
+    }
+
+    searchHistory.unshift(newSearchData);
+
+    return searchHistory;
+  }
+
+  async function handleSearch() {
+    setIsLoading(true);
+
+    const loadingToast = toast.loading(t('loading'));
+
+    try {
+      const cep = inputCepRef.current?.value;
+      const currentLocale = navigator.language;
+
+      console.log(currentLocale);
+
+      if (!cep) return;
+
+      const cepData = await Api({ source: 'viaCep', params: { cep, t } });
+
+      if (cepData?.errorMessage) {
+        toast.error(cepData.errorMessage);
+        return;
+      }
+
+      const weatherData = await Api({
+        source: 'accuWeather',
+        params: {
+          cityName: `${(cepData.response as cepDetails)?.localidade}, ${
+            (cepData.response as cepDetails)?.uf
+          }`,
+          t,
+          locale: currentLocale,
+        },
+      });
+
+      if (weatherData.errorMessage) {
+        toast.error(weatherData.errorMessage);
+        return;
+      }
+
+      if (cepData.response && weatherData.response) {
+        const newSearchData: SearchData = {
+          id: Date.now().toString(),
+          weatherData: weatherData.response as weatherData,
+          cepData: cepData.response as cepDetails,
+        };
+
+        const updatedHistory = updateSearchHistory(newSearchData);
+
+        setCookie('searchHistory', JSON.stringify(updatedHistory), {
+          maxAge: 2678400,
+        });
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error(t('unexpectedError'));
+    } finally {
+      toast.dismiss(loadingToast);
+      setIsLoading(false);
+    }
+  }
 
   return (
-    <div>
-      <h1>{t('helloWorld')}</h1>
+    <div className="flex items-center justify-center h-screen bg-gray-100">
+      <div className="relative w-full max-w-xl shadow-primary rounded-md focus:shadow-none hover:shadow-none">
+        <input
+          ref={inputCepRef}
+          type="text"
+          id="cepInput"
+          placeholder={t('zipPlaceholder')}
+          className="rounded-md w-full p-4 pl-5 pr-16 text-md border-none outline-none font-medium text-textPrimary"
+          onInput={cepCodeMask}
+          maxLength={9}
+          disabled={isLoading}
+        />
+        <button
+          onClick={() => handleSearch()}
+          className="rounded-l-none rounded-md absolute top-0 right-0 w-20 h-full bg-secondary flex items-center justify-center text-white shadow-lg hover:bg-secondaryHover"
+        >
+          {isLoading ? <Autorenew className="animate-spin" /> : <SearchIcon />}
+        </button>
+      </div>
     </div>
   );
 }
