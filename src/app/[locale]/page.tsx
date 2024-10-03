@@ -104,7 +104,7 @@ export default function Home() {
   }
 
   return (
-    <div className="flex items-center justify-center h-screen bg-gray-100">
+    <div className="flex items-center justify-center h-screen bg-gray-100 p-4">
       <div className="relative w-full max-w-xl shadow-primary rounded-md focus:shadow-none hover:shadow-none">
         <input
           ref={inputCepRef}
