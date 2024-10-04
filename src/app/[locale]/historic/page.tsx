@@ -41,13 +41,26 @@ export default function Historic() {
   }
 
   useEffect(() => {
-    const cookieData = getCookie('searchHistory');
+    const cookieData1 = getCookie('searchHistory1');
+    const cookieData2 = getCookie('searchHistory2');
 
-    if (cookieData) {
-      const parsedData: SearchData[] = JSON.parse(cookieData as string);
-      setData(parsedData);
+    let combinedData: SearchData[] = [];
+
+    if (cookieData1) {
+      combinedData = [...combinedData, ...JSON.parse(cookieData1 as string)];
     }
 
+    if (cookieData2) {
+      combinedData = [...combinedData, ...JSON.parse(cookieData2 as string)];
+    }
+
+    combinedData.sort(
+      (a, b) =>
+        new Date(b.weatherData.searchDate).getTime() -
+        new Date(a.weatherData.searchDate).getTime()
+    );
+
+    setData(combinedData);
     setIsLoading(false);
   }, []);
 

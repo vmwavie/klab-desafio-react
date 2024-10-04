@@ -29,26 +29,37 @@ export default function Home() {
   const t = useTranslations('HomePage');
   const inputCepRef = useRef<HTMLInputElement>(null);
 
-  function updateSearchHistory(newSearchData: SearchData): SearchData[] {
-    const existingCookie = getCookie('searchHistory');
-
-    const searchHistory: SearchData[] = existingCookie
-      ? JSON.parse(existingCookie as string)
-      : [];
-
-    const existingIndex = searchHistory.findIndex(
-      (item) => item.cepData.cep === newSearchData.cepData.cep
+  function updateSearchHistory(newSearchData: SearchData): void {
+    let searchHistory1: SearchData[] = JSON.parse(
+      getCookie('searchHistory1') || '[]'
+    );
+    let searchHistory2: SearchData[] = JSON.parse(
+      getCookie('searchHistory2') || '[]'
     );
 
-    if (existingIndex !== -1) {
-      searchHistory.splice(existingIndex, 1);
-    } else if (searchHistory.length >= 10) {
-      searchHistory.pop();
+    const removeExistingItem = (history: SearchData[]) =>
+      history.filter((item) => item.cepData.cep !== newSearchData.cepData.cep);
+
+    searchHistory1 = removeExistingItem(searchHistory1);
+    searchHistory2 = removeExistingItem(searchHistory2);
+
+    searchHistory1.unshift(newSearchData);
+
+    if (searchHistory1.length > 5) {
+      const overflowItem = searchHistory1.pop()!;
+      searchHistory2.unshift(overflowItem);
     }
 
-    searchHistory.unshift(newSearchData);
+    if (searchHistory2.length > 5) {
+      searchHistory2.pop();
+    }
 
-    return searchHistory;
+    setCookie('searchHistory1', JSON.stringify(searchHistory1), {
+      maxAge: 2678400,
+    });
+    setCookie('searchHistory2', JSON.stringify(searchHistory2), {
+      maxAge: 2678400,
+    });
   }
 
   async function handleSearch() {
@@ -89,7 +100,6 @@ export default function Home() {
 
       if (cepData.response && weatherData.response) {
         const weatherDataToSave = weatherData.response as weatherData;
-
         weatherDataToSave.searchDate = new Date().toISOString();
 
         const newSearchData: SearchData = {
@@ -98,12 +108,7 @@ export default function Home() {
         };
 
         dispatch(setSearchData(newSearchData));
-
-        const updatedHistory = updateSearchHistory(newSearchData);
-
-        setCookie('searchHistory', JSON.stringify(updatedHistory), {
-          maxAge: 2678400,
-        });
+        updateSearchHistory(newSearchData);
 
         router.push('/result');
       }
