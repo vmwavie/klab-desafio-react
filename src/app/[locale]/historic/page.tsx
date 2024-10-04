@@ -155,16 +155,19 @@ export default function Historic() {
               <tbody>
                 {data.map((item, index) => (
                   <tr key={index} className="border-b hover:bg-gray-50">
-                    <td className="text-textPrimary px-6 py-4">
+                    <td className="text-textPrimary px-6 py-4 whitespace-nowrap">
                       {formatDate(
                         item.weatherData.searchDate,
-                        locale ? locale : 'pt-BR'
+                        locale || 'pt-BR'
                       )}
                     </td>
-                    <td className="text-textPrimary px-6 py-4">
-                      {`${item.cepData.logradouro}, Bairro ${item.cepData.bairro}`
-                        .slice(0, 30)
-                        .padEnd(33, '.')}
+                    <td className="text-textPrimary px-6 py-4 max-w-0">
+                      <div
+                        className="truncate"
+                        title={`${item.cepData.logradouro}, Bairro ${item.cepData.bairro}`}
+                      >
+                        {item.cepData.logradouro}, Bairro {item.cepData.bairro}
+                      </div>
                     </td>
                     <td className="text-textPrimary px-6 py-4">
                       {`${item.weatherData.maxTemperature}°c / ${item.weatherData.minTemperature}°c`}

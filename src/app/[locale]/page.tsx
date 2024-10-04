@@ -139,6 +139,11 @@ export default function Home() {
           onInput={cepCodeMask}
           maxLength={9}
           disabled={isLoading}
+          onKeyUp={(e) => {
+            if (e.key === 'Enter') {
+              handleSearch();
+            }
+          }}
           aria-label="search area, type the cep here"
         />
         <button
