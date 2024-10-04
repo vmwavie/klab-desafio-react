@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import mapboxgl from 'mapbox-gl';
 import axios from 'axios';
-import { Height } from '@mui/icons-material';
 
 mapboxgl.accessToken =
   'pk.eyJ1Ijoidm13YXZpZSIsImEiOiJjbTF0emNzMHQwODBtMm5vaGJoM3M0Y2kzIn0.9VaIgIohQRTYjWkKyZeGig';
@@ -79,7 +78,6 @@ export default function Map({
   }, [mapLoaded, localidade, uf]);
 
   function createCustomMarkerElement() {
-    p;
     const el = document.createElement('div');
     return el;
   }
