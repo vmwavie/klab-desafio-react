@@ -117,7 +117,7 @@ export default function Home() {
   }
 
   return (
-    <div className="flex items-center justify-center h-screen bg-gray-100">
+    <div className="flex items-center justify-center h-screen bg-gray-100 p-4">
       <div className="absolute top-4 right-4">
         <button
           className="p-4 rounded-full text-textSecondary hover:cursor-pointer"
