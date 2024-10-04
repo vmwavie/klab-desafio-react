@@ -7,7 +7,8 @@
     "apiError": "Ocorreu um erro ao contatar o serviço de CEP. Por favor, tente novamente mais tarde.",
     "cepNotFound": "O CEP fornecido não foi encontrado.",
     "unexpectedError": "Ocorreu um erro inesperado. Por favor, tente novamente.",
-    "envError": "O ambiente da aplicação não está configurado corretamente. Por favor, contate o administrador do sistema."
+    "envError": "O ambiente da aplicação não está configurado corretamente. Por favor, contate o administrador do sistema.",
+    "cityNotFound": "O CEP fornecido não pertence a nenhuma cidade registrada."
   },
   "HistoricPage": {
     "street": "Rua",

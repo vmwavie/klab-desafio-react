@@ -4,6 +4,7 @@ import { getMessages } from 'next-intl/server';
 import localFont from 'next/font/local';
 import '../../styles/globals.css';
 import { Toaster } from 'react-hot-toast';
+import { ReduxProvider } from '@/redux/provider';
 
 const geistSans = localFont({
   src: '../../assets/fonts/GeistVF.woff',
@@ -35,7 +36,7 @@ export default async function RootLayout({
       >
         <NextIntlClientProvider messages={messages}>
           <Toaster position="top-right" />
-          {children}
+          <ReduxProvider>{children}</ReduxProvider>
         </NextIntlClientProvider>
       </body>
     </html>

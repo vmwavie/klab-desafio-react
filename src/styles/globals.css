@@ -31,3 +31,7 @@ body {
     text-wrap: balance;
   }
 }
+
+.mapboxgl-ctrl-attrib-inner {
+  display: none;
+}

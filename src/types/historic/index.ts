@@ -3,7 +3,6 @@ import { weatherData } from '@/types/api/sources/accuWeather';
 import { useTranslations } from 'next-intl';
 
 interface SearchData {
-  id: string;
   weatherData: weatherData;
   cepData: cepDetails;
 }

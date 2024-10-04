@@ -1,13 +1,32 @@
 import React from 'react';
+
+/**
+ * This function is responsible for formatting a dateString to 'Week Day, MM of Month of YYYY' format.
+ *
+ * @param dateString
+ * @returns 'Week Day, MM of Month of YYYY'
+ */
+function formatDateToLong(dateString: string, location: string): string {
+  const date = new Date(dateString);
+  const options: Intl.DateTimeFormatOptions = {
+    weekday: 'long',
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  };
+
+  return new Intl.DateTimeFormat(location, options).format(date);
+}
+
 /**
  * This function is responsible for formatting a dateString to 'dd/mm/yyyy, 00:00 AM' format.
  *
  * @param dateString
  * @returns dd/mm/yyyy, 00:00 AM
  */
-function formatDate(dateString: string) {
+function formatDate(dateString: string, locale: string): string {
   const date = new Date(dateString);
-  return new Intl.DateTimeFormat(navigator.language, {
+  return new Intl.DateTimeFormat(locale, {
     year: 'numeric',
     month: '2-digit',
     day: '2-digit',
@@ -83,6 +102,7 @@ function isDangerousInput(input: string): boolean {
 }
 
 export {
+  formatDateToLong,
   formatDate,
   cepCodeMask,
   validateCep,

@@ -7,7 +7,8 @@
     "apiError": "There was an error contacting the CEP service. Please try again later.",
     "cepNotFound": "The provided CEP was not found.",
     "unexpectedError": "An unexpected error occurred. Please try again.",
-    "envError": "The application environment is not set correctly. Please contact the system administrator."
+    "envError": "The application environment is not set correctly. Please contact the system administrator.",
+    "cityNotFound": "The provided CEP does not belong to any registered city."
   },
   "HistoricPage": {
     "street": "Street",

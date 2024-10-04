@@ -11,6 +11,7 @@ import { useTranslations } from 'next-intl';
 
 export default function Historic() {
   const router = useRouter();
+  const locale = getCookie('NEXT_LOCALE');
 
   const t = useTranslations('HistoricPage');
 
@@ -61,11 +62,6 @@ export default function Historic() {
 
     const sortedData = [...data].sort((a, b) => {
       switch (key) {
-        case 'id':
-          return direction === 'asc'
-            ? a.id.localeCompare(b.id)
-            : b.id.localeCompare(a.id);
-          break;
         case 'date':
           return direction === 'asc'
             ? new Date(a.weatherData.searchDate).getTime() -
@@ -160,7 +156,10 @@ export default function Historic() {
                 {data.map((item, index) => (
                   <tr key={index} className="border-b hover:bg-gray-50">
                     <td className="px-6 py-4">
-                      {formatDate(item.weatherData.searchDate)}
+                      {formatDate(
+                        item.weatherData.searchDate,
+                        locale ? locale : 'pt-BR'
+                      )}
                     </td>
                     <td className="px-6 py-4">
                       {`${item.cepData.logradouro}, Bairro ${item.cepData.bairro}`
@@ -198,7 +197,10 @@ export default function Historic() {
           country="Brazil"
           zipCode={modalData.cepData.cep}
           temperature={`${modalData.weatherData.minTemperature}°c > ${modalData.weatherData.maxTemperature}°c`}
-          lastUpdateDate={formatDate(modalData.weatherData.searchDate)}
+          lastUpdateDate={formatDate(
+            modalData.weatherData.searchDate,
+            locale ? locale : 'pt-BR'
+          )}
           translation={t}
         />
       )}
