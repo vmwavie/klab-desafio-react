@@ -5,6 +5,14 @@ import { useRouter } from 'next/navigation';
 import Map from '@/components/map';
 import { formatDateToLong } from '@/helpers';
 import { getCookie } from 'cookies-next';
+import { NavigateBefore } from '@mui/icons-material';
+import HistoryIcon from '@mui/icons-material/History';
+
+import cloudyBg from '@/assets/weather/clouds.jpg';
+import rainyBg from '@/assets/weather/rain.jpg';
+import snowyBg from '@/assets/weather/snowy.jpg';
+import sunnyBg from '@/assets/weather/sunny.jpg';
+import thunderBg from '@/assets/weather/thunder.jpg';
 
 export default function Result() {
   const router = useRouter();
@@ -18,13 +26,46 @@ export default function Result() {
 
   const { cepData, weatherData } = searchData;
 
+  const weatherBackgrounds = {
+    Cloudy: cloudyBg,
+    Rainy: rainyBg,
+    Snowy: snowyBg,
+    Sun: sunnyBg,
+    Thunder: thunderBg,
+  };
+
+  function getWeatherBackground(iconName: keyof typeof weatherBackgrounds) {
+    return weatherBackgrounds[iconName] || sunnyBg;
+  }
+
+  const backgroundImage = getWeatherBackground(
+    weatherData.iconName as keyof typeof weatherBackgrounds
+  );
+
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 p-4">
       <div className="w-full text-black h-dvh">
+        <div className="mb-4 flex justify-between items-start">
+          <button
+            className="p-2 rounded-full text-gray-500 hover:cursor-pointer"
+            aria-label="Back"
+            onClick={() => router.push('/')}
+          >
+            <NavigateBefore fontSize="large" />
+          </button>
+          <button
+            className="p-4 rounded-full text-textSecondary hover:cursor-pointer"
+            aria-label="History"
+            onClick={() => router.push('/historic')}
+          >
+            <HistoryIcon fontSize="large" />
+          </button>
+        </div>
+
         <Map localidade={cepData.localidade} uf={cepData.uf} />
 
-        <div className="grid grid-cols-2 gap-4 mt-4">
-          <div className="p-4 bg-gray-50 rounded-md">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4 pb-4">
+          <div className="p-4 bg-gray-50 rounded-md border-solid border border-borderPrimary">
             <h2 className="text-lg font-semibold mb-2">
               Informações da localização:
             </h2>
@@ -36,31 +77,27 @@ export default function Result() {
             <p>Cep: {cepData.cep}</p>
           </div>
 
-          <div className="p-4 bg-gray-50 rounded-md flex flex-col items-center justify-center">
-            <p className="text-lg font-semibold">
+          <div
+            className="p-4 bg-gray-50 rounded-md flex flex-col items-center justify-center relative border-solid border border-borderPrimary"
+            style={{
+              backgroundImage: `url(${backgroundImage.src})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+            }}
+          >
+            <p className="text-md font-semibold pt-4 pl-4 text-textPrimary">
               {formatDateToLong(
                 weatherData.searchDate,
                 locale ? locale : 'pt-BR'
               )}
             </p>
-            <p className="text-4xl font-bold">
-              {weatherData.minTemperature}° / {weatherData.maxTemperature}°
-            </p>
-            <div className="mt-2">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                className="w-16 h-16 text-yellow-400"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M12 2a10 10 0 110 20 10 10 0 010-20z"
-                />
-              </svg>
+            <div className="p-4 flex items-end justify-center">
+              <p className="text-6xl font-bold text-textPrimary">
+                {weatherData.maxTemperature}°
+              </p>
+              <p className="text-3xl font-bold ml-2 text-textPrimary opacity-80">
+                / {weatherData.minTemperature}°
+              </p>
             </div>
           </div>
         </div>

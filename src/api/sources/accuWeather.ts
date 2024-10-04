@@ -5,11 +5,21 @@ import {
   getWeatherByCityNameParams,
   getWeatherByCityNameResponse,
   weatherData,
+  WeatherGroup,
+  weatherGroupMap,
 } from '@/types/api/sources/accuWeather';
 import axios from 'axios';
 
 const BASE_URL: string = 'https://dataservice.accuweather.com/';
-const API_KEY: string = 'lNG8O4GqNsonmBaUmGMkQSr0Gn8ONH5F';
+
+// first-api-key const API_KEY: string = 'lNG8O4GqNsonmBaUmGMkQSr0Gn8ONH5F';
+// second-api-key
+const API_KEY: string = '2rR1LJzKLGNyDhGXpcOan5mL3kShXuyY';
+
+function getWeatherGroup(iconPhrase: string): WeatherGroup {
+  const iconName: WeatherGroup = weatherGroupMap[iconPhrase];
+  return iconName ?? 'Sun';
+}
 
 async function getLocationByCityName({
   cityName,
@@ -63,6 +73,7 @@ async function getWeatherByCityName({
     maxTemperature: 0,
     temperatureType: '',
     searchDate: '',
+    iconName: '',
   };
 
   try {
@@ -97,6 +108,9 @@ async function getWeatherByCityName({
       axiosResponse.data.DailyForecasts[0].Temperature.Maximum.Value;
     weatherResponse.temperatureType = axiosResponse.data.Headline.Text;
     weatherResponse.searchDate = axiosResponse.data.Headline.EffectiveDate;
+    weatherResponse.iconName = getWeatherGroup(
+      axiosResponse.data.DailyForecasts[0].IconPhrasePrimary
+    );
   } catch (error) {
     errorMessage = errorMessage ? errorMessage : t('unexpectedError');
     console.log(error);

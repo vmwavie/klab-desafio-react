@@ -71,7 +71,7 @@ export default function Home() {
         return;
       }
 
-      let weatherData = await Api({
+      const weatherData = await Api({
         source: 'accuWeather',
         params: {
           cityName: `${(cepData.response as cepDetails)?.localidade}, ${
@@ -88,7 +88,7 @@ export default function Home() {
       }
 
       if (cepData.response && weatherData.response) {
-        let weatherDataToSave = weatherData.response as weatherData;
+        const weatherDataToSave = weatherData.response as weatherData;
 
         weatherDataToSave.searchDate = new Date().toISOString();
 
@@ -139,10 +139,12 @@ export default function Home() {
           onInput={cepCodeMask}
           maxLength={9}
           disabled={isLoading}
+          aria-label="search area, type the cep here"
         />
         <button
           onClick={() => handleSearch()}
           className="rounded-l-none rounded-md absolute top-0 right-0 w-20 h-full bg-secondary flex items-center justify-center text-white shadow-lg hover:bg-secondaryHover"
+          aria-label="click to search button"
         >
           {isLoading ? <Autorenew className="animate-spin" /> : <SearchIcon />}
         </button>

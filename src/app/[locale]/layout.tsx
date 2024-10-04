@@ -32,7 +32,7 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} bg-gray-100 ntialiased`}
       >
         <NextIntlClientProvider messages={messages}>
           <Toaster position="top-right" />

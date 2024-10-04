@@ -155,21 +155,21 @@ export default function Historic() {
               <tbody>
                 {data.map((item, index) => (
                   <tr key={index} className="border-b hover:bg-gray-50">
-                    <td className="px-6 py-4">
+                    <td className="text-textPrimary px-6 py-4">
                       {formatDate(
                         item.weatherData.searchDate,
                         locale ? locale : 'pt-BR'
                       )}
                     </td>
-                    <td className="px-6 py-4">
+                    <td className="text-textPrimary px-6 py-4">
                       {`${item.cepData.logradouro}, Bairro ${item.cepData.bairro}`
                         .slice(0, 30)
                         .padEnd(33, '.')}
                     </td>
-                    <td className="px-6 py-4">
-                      {`${item.weatherData.minTemperature}°c > ${item.weatherData.maxTemperature}°c`}
+                    <td className="text-textPrimary px-6 py-4">
+                      {`${item.weatherData.maxTemperature}°c / ${item.weatherData.minTemperature}°c`}
                     </td>
-                    <td className="px-6 py-4">
+                    <td className="text-textPrimary px-6 py-4">
                       <button
                         aria-label="View"
                         className="text-black hover:text-textSecondary"
@@ -196,7 +196,7 @@ export default function Historic() {
           state={modalData.cepData.estado}
           country="Brazil"
           zipCode={modalData.cepData.cep}
-          temperature={`${modalData.weatherData.minTemperature}°c > ${modalData.weatherData.maxTemperature}°c`}
+          temperature={`${modalData.weatherData.maxTemperature}°c / ${modalData.weatherData.minTemperature}°c`}
           lastUpdateDate={formatDate(
             modalData.weatherData.searchDate,
             locale ? locale : 'pt-BR'

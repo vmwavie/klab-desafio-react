@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import mapboxgl from 'mapbox-gl';
 import axios from 'axios';
+import { Height } from '@mui/icons-material';
 
 mapboxgl.accessToken =
   'pk.eyJ1Ijoidm13YXZpZSIsImEiOiJjbTF0emNzMHQwODBtMm5vaGJoM3M0Y2kzIn0.9VaIgIohQRTYjWkKyZeGig';
@@ -30,6 +31,7 @@ export default function Map({
       });
 
       mapRef.current.getCanvas().style.zIndex = '1';
+      mapRef.current.getCanvas().style.height = '100%';
     }
 
     return () => {
@@ -82,8 +84,8 @@ export default function Map({
   }
 
   return (
-    <div className="relative w-full h-64 map-container">
-      <div ref={mapContainerRef} className="absolute inset-0"></div>
+    <div className="rounded-md relative w-full" style={{ height: '40rem' }}>
+      <div ref={mapContainerRef} className="rounded-md absolute inset-0"></div>
     </div>
   );
 }
