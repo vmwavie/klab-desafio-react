@@ -143,6 +143,7 @@ export default function Historic() {
                     scope="col"
                     className="px-6 py-3 cursor-pointer"
                     onClick={() => sortData('date')}
+                    id="date-sort"
                   >
                     {t('searchDate')} {getSortIcon('date')}
                   </th>
@@ -150,6 +151,7 @@ export default function Historic() {
                     scope="col"
                     className="px-6 py-3 cursor-pointer"
                     onClick={() => sortData('address')}
+                    id="address-sort"
                   >
                     {t('address')} {getSortIcon('address')}
                   </th>
@@ -157,6 +159,7 @@ export default function Historic() {
                     scope="col"
                     className="px-6 py-3 cursor-pointer"
                     onClick={() => sortData('weather')}
+                    id="weather-sort"
                   >
                     {t('weather')}* {getSortIcon('weather')}
                   </th>

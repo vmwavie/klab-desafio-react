@@ -28,6 +28,7 @@ function DetailsModal({
           <button
             className="text-textPrimary hover:text-textSecondary"
             onClick={onClose}
+            id="close-modal-button"
           >
             X
           </button>
