@@ -48,6 +48,16 @@ describe('Historic Page', () => {
     cy.visit('/historic');
   });
 
+  it('should display empty cookies message when no data is available', () => {
+    cy.clearCookies();
+    cy.wait(1000).then(() => {
+      cy.get('.text-textPrimary').should(
+        'contain',
+        'Nenhum dado do histórico foi encontrado.'
+      );
+    });
+  });
+
   it('should load and display the historic data', () => {
     cy.get('table').should('be.visible');
     cy.contains('Rua dos Gerânios').should('be.visible');

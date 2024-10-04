@@ -111,7 +111,6 @@ export default function Historic() {
   function TableSkeleton() {
     return (
       <div className="animate-pulse">
-        <div className="h-10 bg-gray-200 mb-4"></div>
         {[...Array(5)].map((_, index) => (
           <div key={index} className="h-16 bg-gray-200 mb-2"></div>
         ))}
@@ -135,6 +134,10 @@ export default function Historic() {
         <div className="overflow-x-auto sm:rounded-lg md:mx-10">
           {isLoading ? (
             <TableSkeleton />
+          ) : data.length === 0 ? (
+            <h1 className="text-textPrimary text-xl font-bold text-center w-full">
+              {t('emptyHistoricData')}
+            </h1>
           ) : (
             <table className="w-full text-sm text-left text-gray-500">
               <thead className="text-xs text-gray-700 uppercase">

@@ -23,6 +23,7 @@
     "weather": "Weather",
     "actions": "Actions",
     "modalAlert": "This data was last updated on",
-    "modalTitle": "Search Information"
+    "modalTitle": "Search Information",
+    "emptyHistoricData": "No historical data found."
   }
 }

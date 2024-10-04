@@ -23,6 +23,7 @@
     "weather": "Clima",
     "actions": "Ações",
     "modalAlert": "Estes dados foram atualizados pela última vez em",
-    "modalTitle": "Informações Da Busca"
+    "modalTitle": "Informações Da Busca",
+    "emptyHistoricData": "Nenhum dado do histórico foi encontrado."
   }
 }
