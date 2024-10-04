@@ -93,10 +93,16 @@ export default function Result() {
               )}
             </p>
             <div className="p-4 flex items-end justify-center">
-              <p className="text-6xl font-bold text-textPrimary">
+              <p
+                className="text-6xl font-bold text-textPrimary"
+                id="maxTemperature"
+              >
                 {weatherData.maxTemperature}°
               </p>
-              <p className="text-3xl font-bold ml-2 text-textPrimary opacity-80">
+              <p
+                className="text-3xl font-bold ml-2 text-textPrimary opacity-80"
+                id="minTemperature"
+              >
                 / {weatherData.minTemperature}°
               </p>
             </div>

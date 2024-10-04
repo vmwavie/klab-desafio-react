@@ -79,13 +79,18 @@ export default function Map({
   }, [mapLoaded, localidade, uf]);
 
   function createCustomMarkerElement() {
+    p;
     const el = document.createElement('div');
     return el;
   }
 
   return (
     <div className="rounded-md relative w-full" style={{ height: '40rem' }}>
-      <div ref={mapContainerRef} className="rounded-md absolute inset-0"></div>
+      <div
+        ref={mapContainerRef}
+        id="mapContainer"
+        className="rounded-md absolute inset-0"
+      ></div>
     </div>
   );
 }
