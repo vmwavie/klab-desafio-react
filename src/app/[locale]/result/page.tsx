@@ -69,12 +69,12 @@ export default function Result() {
             <h2 className="text-lg font-semibold mb-2">
               Informações da localização:
             </h2>
-            <p>Rua: {cepData.logradouro}</p>
-            <p>Bairro: {cepData.bairro}</p>
-            <p>Cidade: {cepData.localidade}</p>
-            <p>Estado: {cepData.estado}</p>
-            <p>País: Brasil</p>
-            <p>Cep: {cepData.cep}</p>
+            <p id="street-name">Rua: {cepData.logradouro}</p>
+            <p id="neighborhood-name">Bairro: {cepData.bairro}</p>
+            <p id="city-name">Cidade: {cepData.localidade}</p>
+            <p id="state-name">Estado: {cepData.estado}</p>
+            <p id="country-name">País: Brasil</p>
+            <p id="zipcode-name">Cep: {cepData.cep}</p>
           </div>
 
           <div
@@ -84,6 +84,7 @@ export default function Result() {
               backgroundSize: 'cover',
               backgroundPosition: 'center',
             }}
+            id="weather-info"
           >
             <p className="text-md font-semibold pt-4 pl-4 text-textPrimary">
               {formatDateToLong(
