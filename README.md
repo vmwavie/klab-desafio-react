@@ -126,7 +126,7 @@ To run various tasks, use the following npm scripts:
 > <br /> <br />
 > There are some details in this project, such as comments in functions. Although I follow ideologies like [docs-as-code](https://medium.com/@reinanhs/docs-as-code-um-guia-b%C3%A1sico-para-iniciantes-b65b1e63b53a), I still believe that for a much faster delivery, certain functions are better with their documentation. When hovering over the imported name, we know which parameters to pass and the return, as well as what that function does, without having to spend time reading it each time we use it. I've worked on large-scale projects, and this has always helped me a lot. I always try to write the best possible code, but I like to document to bring better agility and understanding to the team.
 
-## Observações:
+## Notes:
 
 - This site was made using the Kanban methodology. You can follow the shared Kanban board on Trello by [clique aqui](https://trello.com/invite/b/66fdc16593b5a323761fd0b3/ATTI5e64763a704373ef7945bfcaf94a7ff0CA7449B1/klab-desafio-tecnico).
 
