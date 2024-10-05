@@ -9,7 +9,7 @@ on:
       - main
 
 jobs:
-  Test-and-Deploy:
+  Deployment:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
