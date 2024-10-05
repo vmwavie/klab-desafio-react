@@ -62,7 +62,12 @@ export default function Result() {
           </button>
         </div>
 
-        <Map localidade={cepData.localidade} uf={cepData.uf} />
+        <Map
+          street={cepData.logradouro}
+          neighborhood={cepData.bairro}
+          localidade={cepData.localidade}
+          uf={cepData.uf}
+        />
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4 pb-4">
           <div className="p-4 bg-gray-50 rounded-md border-solid border border-borderPrimary">
