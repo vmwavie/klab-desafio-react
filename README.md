@@ -128,9 +128,9 @@ To run various tasks, use the following npm scripts:
 
 ## Notes:
 
-- This site was made using the Kanban methodology. You can follow the shared Kanban board on Trello by [clique aqui](https://trello.com/invite/b/66fdc16593b5a323761fd0b3/ATTI5e64763a704373ef7945bfcaf94a7ff0CA7449B1/klab-desafio-tecnico).
+- This site was made using the Kanban methodology. You can follow the shared Kanban board on Trello by [click here](https://trello.com/invite/b/66fdc16593b5a323761fd0b3/ATTI5e64763a704373ef7945bfcaf94a7ff0CA7449B1/klab-desafio-tecnico).
 
-- This site had its design done in Figma. Later, while I was creating the site, I had to make some small changes. To see the design in Figma [clique aqui](https://www.figma.com/design/MtYzsEFYfKrocaqZqR2G8x/Untitled?node-id=10-5039&t=VSOLn2aFBAtpMZ9d-1)
+- This site had its design done in Figma. Later, while I was creating the site, I had to make some small changes. To see the design in Figma [click here](https://www.figma.com/design/MtYzsEFYfKrocaqZqR2G8x/Untitled?node-id=10-5039&t=VSOLn2aFBAtpMZ9d-1)
 
 ## License:
 
