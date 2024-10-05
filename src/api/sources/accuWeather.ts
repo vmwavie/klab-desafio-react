@@ -13,8 +13,8 @@ import axios from 'axios';
 const BASE_URL: string = 'https://dataservice.accuweather.com/';
 
 // first-api-key
-const API_KEY: string = 'lNG8O4GqNsonmBaUmGMkQSr0Gn8ONH5F';
-// second-api-key const API_KEY: string = '2rR1LJzKLGNyDhGXpcOan5mL3kShXuyY';
+// const API_KEY: string = 'lNG8O4GqNsonmBaUmGMkQSr0Gn8ONH5F';
+/*second-api-key*/ const API_KEY: string = '2rR1LJzKLGNyDhGXpcOan5mL3kShXuyY';
 
 function getWeatherGroup(iconPhrase: string): WeatherGroup {
   const iconName: WeatherGroup = weatherGroupMap[iconPhrase];

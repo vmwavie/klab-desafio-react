@@ -70,12 +70,7 @@ function validateCep(cep: string): boolean {
  * @returns city name normalized to be compatible with the API,
  */
 function normalizeCityName(input: string): string {
-  return input
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .replace(/'/g, '%27')
-    .replace(/\s+/g, '%20')
-    .toLowerCase();
+  return input.replace(/'/g, '%27').replace(/\s+/g, '%20').toLowerCase();
 }
 
 /**
