@@ -12,8 +12,6 @@ import { setCookie, getCookie } from 'cookies-next';
 import { weatherData } from '@/types/api/sources/accuWeather';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
-import { useDispatch } from 'react-redux';
-import { setSearchData } from '@/redux/searchSlice';
 
 interface SearchData {
   weatherData: weatherData;
@@ -21,7 +19,6 @@ interface SearchData {
 }
 
 export default function Home() {
-  const dispatch = useDispatch();
   const router = useRouter();
 
   const [isLoading, setIsLoading] = useState(false);
@@ -107,7 +104,10 @@ export default function Home() {
           cepData: cepData.response as cepDetails,
         };
 
-        dispatch(setSearchData(newSearchData));
+        setCookie('currentSearchData', JSON.stringify(newSearchData), {
+          maxAge: 2678400,
+        });
+
         updateSearchHistory(newSearchData);
 
         router.push('/result');

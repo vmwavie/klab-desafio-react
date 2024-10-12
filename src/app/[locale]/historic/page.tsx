@@ -125,7 +125,7 @@ export default function Historic() {
           <button
             className="p-2 rounded-full text-gray-500 hover:cursor-pointer"
             aria-label="Back"
-            onClick={() => router.push('/')}
+            onClick={() => router.back()}
           >
             <NavigateBefore fontSize="large" />
           </button>

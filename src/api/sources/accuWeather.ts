@@ -8,13 +8,12 @@ import {
   WeatherGroup,
   weatherGroupMap,
 } from '@/types/api/sources/accuWeather';
-import axios from 'axios';
 
 const BASE_URL: string = 'https://dataservice.accuweather.com/';
 
 // first-api-key
-// const API_KEY: string = 'lNG8O4GqNsonmBaUmGMkQSr0Gn8ONH5F';
-/*second-api-key*/ const API_KEY: string = '2rR1LJzKLGNyDhGXpcOan5mL3kShXuyY';
+const API_KEY: string = 'lNG8O4GqNsonmBaUmGMkQSr0Gn8ONH5F';
+// /*second-api-key*/ const API_KEY: string = '2rR1LJzKLGNyDhGXpcOan5mL3kShXuyY';
 
 function getWeatherGroup(iconPhrase: string): WeatherGroup {
   const iconName: WeatherGroup = weatherGroupMap[iconPhrase];
@@ -41,16 +40,22 @@ async function getLocationByCityName({
 
     const cityNameFormated: string = normalizeCityName(cityName);
 
-    const axiosResponse = await axios.get(
+    const response = await fetch(
       `${BASE_URL}locations/v1/cities/search?apikey=${API_KEY}&q=${cityNameFormated}&language=${locale}`
     );
 
-    if (!axiosResponse.data[0]?.Key) {
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+
+    if (!data[0]?.Key) {
       errorMessage = t('cityNotFound');
       throw new Error();
     }
 
-    key = axiosResponse.data[0].Key;
+    key = data[0].Key;
   } catch (error) {
     errorMessage = errorMessage ? errorMessage : t('unexpectedError');
     console.error(error);
@@ -90,26 +95,29 @@ async function getWeatherByCityName({
       throw new Error();
     }
 
-    const axiosResponse = await axios.get(
+    const response = await fetch(
       `${BASE_URL}/forecasts/v1/daily/1day/${locationKey.key}?apikey=${API_KEY}&language=${locale}&metric=true`
     );
 
-    if (
-      axiosResponse.data?.DailyForecasts?.length === 0 ||
-      axiosResponse.data?.Headline?.length === 0
-    ) {
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+
+    if (data?.DailyForecasts?.length === 0 || data?.Headline?.length === 0) {
       errorMessage = t('cityNotFound');
       throw new Error();
     }
 
     weatherResponse.minTemperature =
-      axiosResponse.data.DailyForecasts[0].Temperature.Minimum.Value;
+      data.DailyForecasts[0].Temperature.Minimum.Value;
     weatherResponse.maxTemperature =
-      axiosResponse.data.DailyForecasts[0].Temperature.Maximum.Value;
-    weatherResponse.temperatureType = axiosResponse.data.Headline.Text;
-    weatherResponse.searchDate = axiosResponse.data.Headline.EffectiveDate;
+      data.DailyForecasts[0].Temperature.Maximum.Value;
+    weatherResponse.temperatureType = data.Headline.Text;
+    weatherResponse.searchDate = data.Headline.EffectiveDate;
     weatherResponse.iconName = getWeatherGroup(
-      axiosResponse.data.DailyForecasts[0].IconPhrasePrimary
+      data.DailyForecasts[0].IconPhrasePrimary
     );
   } catch (error) {
     errorMessage = errorMessage ? errorMessage : t('unexpectedError');

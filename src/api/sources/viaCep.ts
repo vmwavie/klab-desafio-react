@@ -4,7 +4,6 @@ import {
   Params,
   getCepDetailsResponse,
 } from '@/types/api/sources/viaCep';
-import axios from 'axios';
 
 const BASE_URL: string = 'https://viacep.com.br/ws/';
 const BASE_FORMAT: string = '/json';
@@ -15,7 +14,7 @@ const BASE_FORMAT: string = '/json';
  * @param cep - The cep to fetch
  * @param t - The translations function from next-intl
  *
- * @returns Promisse {
+ * @returns Promise {
  *  response: Response | null,
  *  errorMessage: string
  * }
@@ -39,14 +38,20 @@ async function getCepDetails({
 
     cep = cep.replace(/\D/g, '');
 
-    const axiosResponse = await axios.get(`${BASE_URL}${cep}${BASE_FORMAT}`);
+    const fetchResponse = await fetch(`${BASE_URL}${cep}${BASE_FORMAT}`);
 
-    if (axiosResponse.data?.erro) {
+    if (!fetchResponse.ok) {
+      throw new Error(`HTTP error! status: ${fetchResponse.status}`);
+    }
+
+    const data = await fetchResponse.json();
+
+    if (data?.erro) {
       errorMessage = t('cepNotFound');
       throw new Error();
     }
 
-    response = axiosResponse.data;
+    response = data;
   } catch (error) {
     errorMessage = errorMessage ? errorMessage : t('unexpectedError');
     console.error(error);

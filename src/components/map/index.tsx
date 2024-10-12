@@ -1,9 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import mapboxgl from 'mapbox-gl';
-import axios from 'axios';
 
 mapboxgl.accessToken =
-  'pk.eyJ1Ijoidm13YXZpZSIsImEiOiJjbTF0emNzMHQwODBtMm5vaGJoM3M0Y2kzIn0.9VaIgIohQRTYjWkKyZeGig';
+  'pk.eyJ1Ijoidm13YXZpZSIsImEiOiJjbTI2ZGU2ajQwOHV0Mm1wdmticmFyd25nIn0.6YG7EudDb2lYI5-lYgQ0Lg';
 
 export default function Map({
   street,
@@ -49,11 +48,17 @@ export default function Map({
           const query = encodeURIComponent(
             `${street}, ${neighborhood}, ${localidade}, ${uf}, Brasil`
           );
-          const mapboxResponse = await axios.get(
+          const response = await fetch(
             `https://api.mapbox.com/geocoding/v5/mapbox.places/${query}.json?access_token=${mapboxgl.accessToken}`
           );
 
-          const features = mapboxResponse.data.features;
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+
+          const data = await response.json();
+          const features = data.features;
+
           if (features.length > 0) {
             const [lng, lat] = features[0].center;
             mapRef.current.flyTo({

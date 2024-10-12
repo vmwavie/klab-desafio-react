@@ -1,10 +1,9 @@
 'use client';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/redux/store';
 import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import Map from '@/components/map';
 import { formatDateToLong } from '@/helpers';
-import { getCookie } from 'cookies-next';
+import { getCookie, setCookie } from 'cookies-next';
 import { NavigateBefore } from '@mui/icons-material';
 import HistoryIcon from '@mui/icons-material/History';
 
@@ -13,18 +12,47 @@ import rainyBg from '@/assets/weather/rain.jpg';
 import snowyBg from '@/assets/weather/snowy.jpg';
 import sunnyBg from '@/assets/weather/sunny.jpg';
 import thunderBg from '@/assets/weather/thunder.jpg';
+import { SearchData } from '@/types/historic';
 
 export default function Result() {
   const router = useRouter();
-  const locale = getCookie('NEXT_LOCALE');
-  const searchData = useSelector((state: RootState) => state.search.searchData);
+  const locale = getCookie('NEXT_LOCALE') as string;
+  const [searchData, setSearchData] = useState<SearchData | null>(null);
+
+  useEffect(() => {
+    const cookieData = getCookie('currentSearchData');
+    if (cookieData) {
+      try {
+        const parsedData = JSON.parse(cookieData as string) as SearchData;
+        console.log(parsedData);
+        if (!parsedData) {
+          throw new Error('Null cookie data');
+        }
+
+        setSearchData(parsedData);
+      } catch (error) {
+        console.error('Error parsing cookie data:', error);
+        router.push('/');
+      }
+    } else {
+      router.push('/');
+    }
+  }, [router]);
 
   if (!searchData) {
-    router.push('/');
     return null;
   }
 
   const { cepData, weatherData } = searchData;
+
+  setCookie('currentSearchData', null);
+
+  function redirectToHistory() {
+    setCookie('currentSearchData', JSON.stringify(searchData), {
+      maxAge: 2678400,
+    });
+    router.push('/historic');
+  }
 
   const weatherBackgrounds = {
     Cloudy: cloudyBg,
@@ -56,7 +84,7 @@ export default function Result() {
           <button
             className="p-4 rounded-full text-textSecondary hover:cursor-pointer"
             aria-label="History"
-            onClick={() => router.push('/historic')}
+            onClick={() => redirectToHistory()}
           >
             <HistoryIcon fontSize="large" />
           </button>
@@ -92,10 +120,7 @@ export default function Result() {
             id="weather-info"
           >
             <p className="text-md font-semibold pt-4 pl-4 text-textPrimary">
-              {formatDateToLong(
-                weatherData.searchDate,
-                locale ? locale : 'pt-BR'
-              )}
+              {formatDateToLong(weatherData.searchDate, locale || 'pt-BR')}
             </p>
             <div className="p-4 flex items-end justify-center">
               <p
